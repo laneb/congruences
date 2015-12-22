@@ -22,8 +22,9 @@ int * primes(int length){
 
 	expand_prime_list(length);
 
-	if(rtrnList != NULL)
+	if(rtrnList != NULL){
 		memcpy(rtrnList, PRIME_LIST, length*sizeof(int));
+	}
 
 	return rtrnList;
 }

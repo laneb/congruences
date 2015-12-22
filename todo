@@ -7,3 +7,6 @@ Solving:
 I/O:
 - Write regex polynomial interpreter.
 - Select commandline I/O management gem.
+
+Testing:
+- Write rspec examples for C functions
