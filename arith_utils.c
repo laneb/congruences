@@ -13,6 +13,7 @@ int coprime(int n1, int n2);
 int * prime_factors(int n);
 int totient(int n);
 static int has_primitive_root(int n);
+static int primitive_root_count(int n);
 int least_primitive_root(int n);
 int * primitive_roots(int n);
 
@@ -119,7 +120,7 @@ int has_primitive_root(int n){
 	int * factors = factorList+1;
 	int has = 1;
 
-	if(numOfFactors > 2 || n % 8 == 0 || (numOfFactors == 2 && factors[0] == 2 && n % 4 ==0)){
+	if(numOfFactors > 2 || n % 8 == 0 || (numOfFactors == 2 && n % 4 ==0)){
 		has = 0;
 	}
 
@@ -172,7 +173,7 @@ int * primitive_roots(int n){
 
 
 int * prime_factors(int n){
-	int divMax = (int) n;
+	int divMax = (int) n/2;
 	int * primeList = primes_upto( divMax );
 	int numberOfPrimes = primeList[0];
 	int * primes = primeList + 1;
