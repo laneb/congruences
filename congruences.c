@@ -1,14 +1,7 @@
-#include "arith_utils.c"
+#include "arith_utils.h"
 
-
-int * brute_force_congruence(int degree, int coeffs[], int primeMod);
-int chinese_remainder_solution(int numOfEquations, int scals[], int mods[]);
-int * linear_diophantine_solution(int numOfTerms, int coeffs[], int scal);
-int * solve_prime_power_congruence(int degree, int coeffs[], int prime, int power);
-int * solve_system_of_congruence_sets(int numOfSets, int ** sets, int mods[]);
-int * solve_congruence(int funcDegree, int funcCoeffs[], int mod);
-int * solve_system_of_congruences(int numOfFuncs, int * funcDegrees, int ** funcCoeffs, int * mods);
-
+static int * solve_prime_power_congruence(int degree, int coeffs[], int prime, int power);
+static int * solve_system_of_congruence_sets(int numOfSets, int ** sets, int mods[]);
 
 int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
 	int i;
