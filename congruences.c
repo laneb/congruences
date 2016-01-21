@@ -1,7 +1,11 @@
 #include "arith_utils.h"
+#include "prime_gen.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 static int * solve_prime_power_congruence(int degree, int coeffs[], int prime, int power);
-static int * solve_system_of_congruence_sets(int numOfSets, int ** sets, int mods[]);
+static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * lengthsOfSets, int ** sets, int mods[]);
+static void solve_system_of_order_1_congruence_sets_recursively(int numOfSets, int * lengthsOfSets, int ** sets, int * mods, int ** dest);
 
 int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
 	int i;
@@ -43,7 +47,7 @@ int * brute_force_congruence(int degree, int coeffs[], int primeMod){
 }
 
 
-int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int prime, int power){
+static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int prime, int power){
 
 	int * baseSolutionList;
 	int numOfBaseSolutions;
@@ -109,65 +113,36 @@ int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int prime, 
 }
 
 
-int * solve_system_of_congruence_sets(int numOfSets, int * * sets, int mods[]){
-	//heuristic approach: apply CRT individually
-
-	int * set1;
-	int * set2;
-	int set1Size;
-	int set2Size;
-
-	int congruencePair[2];
-
-	int * generalSolutionList;
-	int * localSolutionList;
-	int * localSolutions;
+static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLengths, int * * sets, int * mods){
+	//allocate perumtation array
+	int * divAry = calloc(numOfSets, sizeof(int));
+	int * scalAry = calloc(numOfSets, sizeof(int));
+	int i, j;
 	int numOfSolutions;
+	int * solutionAry;
+	int * dest;
+	int idx;
 
-	int i;
-	int j;
-
-
-	if(numOfSets == 1){
-		return sets[0];
+	for(i = 0, numOfSolutions = 1; i < numOfSets; i++){
+		divAry[i] = numOfSolutions;
+		numOfSolutions *= setLengths[i];
 	}
 
+	solutionAry = calloc(numOfSolutions+1, sizeof(int));
+	solutionAry[0] = numOfSolutions;
+	dest = solutionAry+1;
 
-	if(sets[0][0] == 0){
-		generalSolutionList = malloc( sizeof(int) );
-		generalSolutionList[0] = 0;
-		return generalSolutionList;
-	}
-
-
-	set1 = sets[0]+1;
-	set2 = sets[1]+1;
-	set1Size = sets[0][0];
-	set2Size = sets[1][0];
-	numOfSolutions = set1Size*set2Size;
-	localSolutionList = calloc(numOfSolutions+1, sizeof(int));
-	localSolutions = localSolutionList+1;
-	*localSolutionList = numOfSolutions;
-
-	for(i = 0, numOfSolutions = 0; i < set1Size; i++){
-		congruencePair[0] = set1[i];
-
-		for(j = 0; j < set2Size; j++){
-			congruencePair[1] = set2[j];
-			localSolutions[numOfSolutions++] = chinese_remainder_solution(2, congruencePair, mods);
+	for(i = 0; i < numOfSolutions; i++){
+		for(j = 0; j < numOfSets; j++){
+			idx = (i / divAry[j]) % setLengths[j];
+			scalAry[j] = sets[j][idx];
 		}
+
+		*(dest++) = chinese_remainder_solution(numOfSets, scalAry, mods);
 	}
 
-
-	sets[1] = localSolutionList;
-	mods[1] *= mods[0];
-	generalSolutionList = solve_system_of_congruence_sets(numOfSets-1, sets+1, mods+1);
-
-
-	return generalSolutionList;
+	return solutionAry;
 }
-
-
 
 int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
 	int * solutionList;
@@ -178,7 +153,7 @@ int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
 
 	int * * primePowerSolutions = calloc(numOfModFactors, sizeof(int *));
 	int * primePowers = calloc(numOfModFactors, sizeof(int));
-
+	int * primePowerSolutionLengths = calloc(numOfModFactors, sizeof(int *));
 
 	int power;
 	int i;
@@ -194,18 +169,24 @@ int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
 		}
 
 		primePowerSolutions[i] = solve_prime_power_congruence(funcDegree, funcCoeffs, modFactors[i], power);
+		primePowerSolutionLengths[i] = *(primePowerSolutions[i]++);
 	}
 
 
-	solutionList = solve_system_of_congruence_sets(numOfModFactors, primePowerSolutions, primePowers);
+	solutionList = solve_system_of_order_1_congruence_sets(numOfModFactors, primePowerSolutionLengths, primePowerSolutions, primePowers);
 
-
+	for(i = 0; i < numOfModFactors; i++){
+		free(primePowerSolutions[i] - 1);
+	}
+	free(primePowerSolutionLengths);
+	free(primePowerSolutions);
+	free(primePowers);
 	free(modFactorList);
 
 	return solutionList;
 }
 
-
+/*
 int * solve_system_of_congruences(int numOfFuncs, int * funcDegrees, int ** funcCoeffs, int * mods){
 	int i;
 	int * * funcSolutionSets = calloc(numOfFuncs, sizeof(int *));
@@ -216,4 +197,4 @@ int * solve_system_of_congruences(int numOfFuncs, int * funcDegrees, int ** func
 
 	return solve_system_of_congruence_sets(numOfFuncs, funcSolutionSets, mods);
 }	
-
+*/
