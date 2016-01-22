@@ -9,6 +9,8 @@ int main(){
 	int failures = 0;
 
 	failures += solve_congruence_test(POL_1_DEGREE, POL_1_COEFFS, POL_1_MOD, NUM_OF_POL_1_SOLS, POL_1_SOLS);
+	failures += solve_congruence_test(POL_2_DEGREE, POL_2_COEFFS, POL_2_MOD, NUM_OF_POL_2_SOLS, POL_2_SOLS);
+	failures += solve_congruence_test(POL_3_DEGREE, POL_3_COEFFS, POL_3_MOD, NUM_OF_POL_3_SOLS, POL_3_SOLS);
 
 	return failures;
 }
@@ -21,16 +23,27 @@ int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_o
 	int * solutions_to_test = solve_congruence(func_degree, func_coeffs, mod);
 	int i, j;
 
+	qsort(solutions_to_test+1, solutions_to_test[0], sizeof(int), int_array_cmp_func);
+	qsort(solutions, num_of_solutions, sizeof(int), int_array_cmp_func);
+
 	if(num_of_solutions != solutions_to_test[0]){
-		printf("Incorrect number of solutions to congruence ");
+		printf("Incorrect number of solutions found for congruence ");
 		print_polynomial_inline(func_degree, func_coeffs);
-		printf(" = 0: %d given instead of %d.\n", solutions_to_test[0], num_of_solutions);
+		printf(" = 0 (mod %d): %d given instead of %d.\n\n", mod, solutions_to_test[0], num_of_solutions);
+
+		printf("The following solutions were found: \n");
+		for(i = 0; i < solutions_to_test[0]; i++){
+			printf("(%d) %d\n", i, solutions_to_test[i+1]);
+		}
+
+		printf("\nwhere the actual solutions are\n\n");
+
+		for(i = 0; i < num_of_solutions; i++){
+			printf("(%d) %d\n", i, solutions[i]);
+		}
 
 		return 1;
 	}
-
-	qsort(solutions_to_test+1, solutions_to_test[0], sizeof(int), int_array_cmp_func);
-	qsort(solutions, num_of_solutions, sizeof(int), int_array_cmp_func);
 
 	for(i = 0; i < num_of_solutions; i++){
 		if(solutions[i] != solutions_to_test[i+1]){
@@ -38,15 +51,15 @@ int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_o
 			
 			print_polynomial_inline(func_degree, func_coeffs);
 
-			printf(" = 0: %d given instead of %d.\n", solutions_to_test[i+1], solutions[i]);
+			printf(" = 0: %d given instead of %d.\n\n", solutions_to_test[i+1], solutions[i]);
 
 			return 1;
 		}
 	}
 
-	printf("%d solutions found for congruence ", num_of_solutions);
+	printf("Correct number of solutions (%d) found for congruence ", num_of_solutions);
 	print_polynomial_inline(func_degree, func_coeffs);
-	printf(" = 0 without error.\n");
+	printf(" = 0 (mod %d) without error.\n\n", mod);
 
 	return 0;
 }

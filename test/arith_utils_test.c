@@ -26,7 +26,7 @@ int main(){
 		failures += totient_test(TOTIENT_NUMS[i], TOTIENT_EVALS[i]);
 	}
 
-	printf("%d functions failing in arith_utils.c\n", failures);
+	printf("%d functions failing in arith_utils.c\n\n", failures);
 	return failures;
 }
 
