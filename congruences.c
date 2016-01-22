@@ -5,7 +5,6 @@
 
 static int * solve_prime_power_congruence(int degree, int coeffs[], int prime, int power);
 static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * lengthsOfSets, int ** sets, int mods[]);
-static void solve_system_of_order_1_congruence_sets_recursively(int numOfSets, int * lengthsOfSets, int ** sets, int * mods, int ** dest);
 
 int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
 	int i;
