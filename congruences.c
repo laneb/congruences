@@ -82,7 +82,7 @@ static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int 
 		currentMod *= prime;
 	}
 
-	for(j = 0; j <= derivDegree; j++){
+	for(j = 0; j <= derivDegree; j++){ 
 		derivCoeffs[j] = funcCoeffs[j+1]*(j+1);
 	}
 
@@ -98,10 +98,11 @@ static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int 
 
 		else if(divFunc % prime == 0){
 			for(t = 1; t <= prime; t++){
-				liftedSolutions[++numOfLiftedSolutions] = baseSolutions[j] + t*prime;
+				liftedSolutions[++numOfLiftedSolutions] = baseSolutions[j] + t*(currentMod/prime);
 			}
 		}
 	}
+
 
 	*liftedSolutions = numOfLiftedSolutions;
 
@@ -155,8 +156,7 @@ int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
 	int * primePowerSolutionLengths = calloc(numOfModFactors, sizeof(int *));
 
 	int power;
-	int i;
-
+	int i, j;
 
 	for(i = 0; i < numOfModFactors; i++){
 		primePowers[i] = modFactors[i]; 

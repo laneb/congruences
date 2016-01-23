@@ -69,6 +69,18 @@
 #define POL_3_MOD 49
 #define NUM_OF_POL_3_SOLS 0
 
+#define POL_4_DEGREE 2
+#define POL_4_COEFF_0 4
+#define POL_4_COEFF_1 -4
+#define POL_4_COEFF_2 1
+#define POL_4_MOD 5104
+#define NUM_OF_POL_4_SOLS 4
+#define POL_4_SOL_0 2
+#define POL_4_SOL_1 1278
+#define POL_4_SOL_2 2554
+#define POL_4_SOL_3 3830
+
+
 int POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0, 
 									POL_1_COEFF_1, 
 									POL_1_COEFF_2, 
@@ -132,4 +144,13 @@ int POL_3_COEFFS[POL_3_DEGREE+1] = {POL_3_COEFF_0,
 									POL_3_COEFF_9
 									};
 
-int * POL_3_SOLS;
+int * POL_3_SOLS = NULL;
+
+int POL_4_COEFFS[POL_4_DEGREE+1] = {POL_4_COEFF_0,
+									POL_4_COEFF_1,
+									POL_4_COEFF_2};
+
+int POL_4_SOLS[NUM_OF_POL_4_SOLS] = {POL_4_SOL_0,
+									POL_4_SOL_1,
+									POL_4_SOL_2,
+									POL_4_SOL_3};

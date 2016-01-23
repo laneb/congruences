@@ -77,10 +77,11 @@ int * prime_factors(int n){
 static int least_divisor(int n){
 	//Calculate maximum for least divisor (sqrt)
 	int least_div_max = sqrt(n) + 1;
+	int i;
 	//Expand prime list up to the least divisor
 	expand_prime_list_past(least_div_max);
 
-	int i;
+
 	for(i = 0; PRIME_LIST[i] < least_div_max; i++){
 		if(n % PRIME_LIST[i] == 0){
 			return PRIME_LIST[i];
