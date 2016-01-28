@@ -80,6 +80,31 @@
 #define POL_4_SOL_2 2554
 #define POL_4_SOL_3 3830
 
+#define POL_5_DEGREE 11
+#define POL_5_COEFF_0 0
+#define POL_5_COEFF_1 2
+#define POL_5_COEFF_2 0
+#define POL_5_COEFF_3 0
+#define POL_5_COEFF_4 0
+#define POL_5_COEFF_5 0
+#define POL_5_COEFF_6 0
+#define POL_5_COEFF_7 0
+#define POL_5_COEFF_8 0
+#define POL_5_COEFF_9 0
+#define POL_5_COEFF_10 0
+#define POL_5_COEFF_11 1
+#define POL_5_MOD 401249
+#define NUM_OF_POL_5_SOLS 9
+#define POL_5_SOL_0 0
+#define POL_5_SOL_1 87850
+#define POL_5_SOL_2 101665
+#define POL_5_SOL_3 105867
+#define POL_5_SOL_4 193717
+#define POL_5_SOL_5 207532
+#define POL_5_SOL_6 295382
+#define POL_5_SOL_7 299584
+#define POL_5_SOL_8 313399
+
 
 int POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0, 
 									POL_1_COEFF_1, 
@@ -154,3 +179,26 @@ int POL_4_SOLS[NUM_OF_POL_4_SOLS] = {POL_4_SOL_0,
 									POL_4_SOL_1,
 									POL_4_SOL_2,
 									POL_4_SOL_3};
+
+int POL_5_COEFFS[POL_5_DEGREE+1] = {POL_5_COEFF_0,
+									POL_5_COEFF_1,
+									POL_5_COEFF_2,
+									POL_5_COEFF_3,
+									POL_5_COEFF_4,
+									POL_5_COEFF_5,
+									POL_5_COEFF_6,
+									POL_5_COEFF_7,
+									POL_5_COEFF_8,
+									POL_5_COEFF_9,
+									POL_5_COEFF_10,
+									POL_5_COEFF_11};
+
+int POL_5_SOLS[NUM_OF_POL_5_SOLS] = {POL_5_SOL_0,
+									POL_5_SOL_1,
+									POL_5_SOL_2,
+									POL_5_SOL_3,
+									POL_5_SOL_4,
+									POL_5_SOL_5,
+									POL_5_SOL_6,
+									POL_5_SOL_7,
+									POL_5_SOL_8};

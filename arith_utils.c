@@ -4,6 +4,19 @@
 #include "arith_utils.h"
 
 
+int mod_sum(int x, int y, int mod){
+	x %= mod;
+	y %= mod;
+
+	if(y >= mod - x){
+		return y - (mod - x);
+	}
+
+	else{
+		return y + x;
+	}
+}
+
 
 int mod_inv(int n, int mod){
 	int y, a;
@@ -49,7 +62,14 @@ int coprime(int n1, int n2){
 
 
 int mod_product(int num1, int num2, int mod){
-	return (num1*num2) % mod;
+	int prod = 0;
+	int i;
+
+	for(i = 0; i < num1; i++){
+		prod = mod_sum(prod, num2, mod);
+	}
+
+	return prod;
 }
 
 
