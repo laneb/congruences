@@ -105,15 +105,15 @@ int totient(int n){
 
 
 int mod_eval_polynomial(int degree, int coeffs[], int mod, int x){
-	int sum = coeffs[0];
+	int tot = coeffs[degree];
 	int i;
 
-	for(i = 1; i <= degree; i++){
-		sum += mod_power(x, i, mod)*coeffs[i];
-		sum %= mod;
+	for(i = degree - 1; i >= 0; i--){
+		tot = mod_product(tot, x, mod);
+		tot = mod_sum(tot, coeffs[i], mod);
 	}
 
-	return sum;
+	return tot;
 }
 
 
