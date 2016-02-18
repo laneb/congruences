@@ -54,7 +54,7 @@ int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_o
 			
 			print_polynomial_inline(func_degree, func_coeffs);
 
-			printf(" = 0: %d given instead of %d.\n\n", solutions_to_test[i+1], solutions[i]);
+			printf(" = 0 (mod %d): %d given instead of %d.\n\n", mod, solutions_to_test[i+1], solutions[i]);
 
 			return 1;
 		}

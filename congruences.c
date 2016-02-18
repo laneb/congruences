@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static int * adjust_coeffs_to_mod(int degree, int * coeffs, int mod);
 static int * solve_prime_power_congruence(int degree, int coeffs[], int prime, int power);
 static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * lengthsOfSets, int ** sets, int mods[]);
 
@@ -18,10 +19,25 @@ int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
 
 	for(i=0; i<numberOfEquations; i++){
 		modCoeff = m/mods[i];
-		x += modCoeff*mod_inv(modCoeff, mods[i])*scals[i];
+		x += modCoeff*mod_inv(modCoeff % mods[i], mods[i])*scals[i];
 	}
 
 	return x % m;
+}
+
+
+int * adjust_coeffs_to_mod(int degree, int * coeffs, int mod){
+	int * adjustedCoeffs = calloc(degree+1, sizeof(int));
+	int i;
+
+	for(i = 0; i <= degree; i++){
+		adjustedCoeffs[i] = coeffs[i] % mod;
+		if(adjustedCoeffs[i] < 0){
+			adjustedCoeffs[i] += mod;
+		}
+	}
+
+	return adjustedCoeffs;
 }
 
 
@@ -29,10 +45,13 @@ int * brute_force_congruence(int degree, int coeffs[], int primeMod){
 	//assumes a prime modulus. split congruences of composite modulus into systems of congrueneces
 	//of prime modulus and/or apply the lifting theorem to make use of this function
 	//solve a0x^n + a1x^n-1... = 0 (mod mod) where n is the order a0, a1, ... are coeffieicients
+	//also assumes positive representation of coeffs
 	int * solutionList = calloc(degree+1, sizeof(int));
 	int * solutions = solutionList+1;
 	int numberOfSolutions = 0;
 	int x;
+
+
 
 	for(x = 0; x < primeMod && numberOfSolutions <= degree; x++){
 		if(mod_eval_polynomial(degree, coeffs, primeMod, x) == 0){
@@ -48,12 +67,15 @@ int * brute_force_congruence(int degree, int coeffs[], int primeMod){
 
 static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int prime, int power){
 
+	int * adjustedCoeffs;
+
 	int * baseSolutionList;
 	int numOfBaseSolutions;
 	int * baseSolutions;
 
 	int * liftedSolutions;
 	int numOfLiftedSolutions;
+
 
 	int derivDegree;
 	int * derivCoeffs;
@@ -64,7 +86,10 @@ static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int 
 	int currentMod;
 
 	if(power == 1){
-		return brute_force_congruence(funcDegree, funcCoeffs, prime);
+		adjustedCoeffs = adjust_coeffs_to_mod(funcDegree, funcCoeffs, prime);
+		baseSolutions = brute_force_congruence(funcDegree, adjustedCoeffs, prime);
+		free(adjustedCoeffs);
+		return baseSolutions;
 	}
 
 	baseSolutionList = solve_prime_power_congruence(funcDegree, funcCoeffs, prime, power-1);
@@ -83,11 +108,12 @@ static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int 
 	}
 
 	for(j = 0; j <= derivDegree; j++){ 
-		derivCoeffs[j] = funcCoeffs[j+1]*(j+1);
+		derivCoeffs[j] = mod_product(funcCoeffs[j+1] % prime, j+1, prime);
 	}
 
 
 	for(j = 0; j < numOfBaseSolutions; j++){
+
 		deriv = mod_eval_polynomial(derivDegree, derivCoeffs, prime, baseSolutions[j]);
 		divFunc = (eval_polynomial(funcDegree, funcCoeffs, baseSolutions[j]) / (currentMod/prime)) % prime;
 

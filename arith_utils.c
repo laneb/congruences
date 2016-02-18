@@ -3,11 +3,8 @@
 #include "prime_gen.h"
 #include "arith_utils.h"
 
-
+//Expects 0 <= x,y < mod
 int mod_sum(int x, int y, int mod){
-	x %= mod;
-	y %= mod;
-
 	if(y >= mod - x){
 		return y - (mod - x);
 	}
@@ -72,7 +69,7 @@ int mod_product(int num1, int num2, int mod){
 	return prod;
 }
 
-
+//expects 0 <= n < mod
 int mod_power(int n, int power, int mod){
 	int product = n;
 	int i;
