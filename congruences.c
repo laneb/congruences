@@ -46,20 +46,22 @@ int * brute_force_congruence(int degree, int coeffs[], int primeMod){
 	//of prime modulus and/or apply the lifting theorem to make use of this function
 	//solve a0x^n + a1x^n-1... = 0 (mod mod) where n is the order a0, a1, ... are coeffieicients
 	//also assumes positive representation of coeffs
+	int * adjustedCoeffs = adjust_coeffs_to_mod(degree, coeffs, primeMod);
 	int * solutionList = calloc(degree+1, sizeof(int));
 	int * solutions = solutionList+1;
 	int numberOfSolutions = 0;
 	int x;
 
 
-
 	for(x = 0; x < primeMod && numberOfSolutions <= degree; x++){
-		if(mod_eval_polynomial(degree, coeffs, primeMod, x) == 0){
+		if(mod_eval_polynomial(degree, adjustedCoeffs, primeMod, x) == 0){
 			solutions[numberOfSolutions++] = x;
 		}
 	}
 
 	*solutionList = numberOfSolutions;
+
+	free(adjustedCoeffs);
 
 	return solutionList;
 }
@@ -86,9 +88,7 @@ static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int 
 	int currentMod;
 
 	if(power == 1){
-		adjustedCoeffs = adjust_coeffs_to_mod(funcDegree, funcCoeffs, prime);
-		baseSolutions = brute_force_congruence(funcDegree, adjustedCoeffs, prime);
-		free(adjustedCoeffs);
+		baseSolutions = brute_force_congruence(funcDegree, funcCoeffs, prime);
 		return baseSolutions;
 	}
 
