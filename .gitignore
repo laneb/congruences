@@ -1,2 +1,8 @@
 todo
 *.exe
+arith_utils_test
+congruences_test
+prime_gen_test
+arith_utils_test.dSYM
+congruences_test.dSYM
+prime_gen_test.dSYM
