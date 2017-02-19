@@ -106,54 +106,73 @@
 #define POL_5_SOL_8 313399
 
 
-int POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0, 
-									POL_1_COEFF_1, 
-									POL_1_COEFF_2, 
-									POL_1_COEFF_3, 
+#define POL_6_DEGREE 5
+#define POL_6_COEFF_0 1
+#define POL_6_COEFF_1 2
+#define POL_6_COEFF_2 1
+#define POL_6_COEFF_3 -1
+#define POL_6_COEFF_4 0
+#define POL_6_COEFF_5 -3
+#define POL_6_MOD 49
+#define NUM_OF_POL_6_SOLS 8
+#define POL_6_SOL_0 1
+#define POL_6_SOL_1 8
+#define POL_6_SOL_2 15
+#define POL_6_SOL_3 22
+#define POL_6_SOL_4 26
+#define POL_6_SOL_5 29
+#define POL_6_SOL_6 36
+#define POL_6_SOL_7 43
+
+
+int POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0,
+									POL_1_COEFF_1,
+									POL_1_COEFF_2,
+									POL_1_COEFF_3,
 									POL_1_COEFF_4};
-int POL_1_SOLS[NUM_OF_POL_1_SOLS] = {POL_1_SOL_0, 
-									 POL_1_SOL_1, 
-									 POL_1_SOL_2, 
-									 POL_1_SOL_3, 
-									 POL_1_SOL_4, 
-									 POL_1_SOL_5, 
-									 POL_1_SOL_6, 
-									 POL_1_SOL_7, 
-									 POL_1_SOL_8, 
-									 POL_1_SOL_9, 
-									 POL_1_SOL_10, 
+int POL_1_SOLS[NUM_OF_POL_1_SOLS] = {POL_1_SOL_0,
+									 POL_1_SOL_1,
+									 POL_1_SOL_2,
+									 POL_1_SOL_3,
+									 POL_1_SOL_4,
+									 POL_1_SOL_5,
+									 POL_1_SOL_6,
+									 POL_1_SOL_7,
+									 POL_1_SOL_8,
+									 POL_1_SOL_9,
+									 POL_1_SOL_10,
 									 POL_1_SOL_11};
 
-int POL_2_COEFFS[POL_2_DEGREE+1] = {POL_2_COEFF_0, 
-									POL_2_COEFF_1, 
-									POL_2_COEFF_2, 
-									POL_2_COEFF_3, 
-									POL_2_COEFF_4, 
-									POL_2_COEFF_5, 
+int POL_2_COEFFS[POL_2_DEGREE+1] = {POL_2_COEFF_0,
+									POL_2_COEFF_1,
+									POL_2_COEFF_2,
+									POL_2_COEFF_3,
+									POL_2_COEFF_4,
+									POL_2_COEFF_5,
 									POL_2_COEFF_6};
 
-int POL_2_SOLS[NUM_OF_POL_2_SOLS] = {POL_2_SOL_0, 
-								  	 POL_2_SOL_1, 
-								  	 POL_2_SOL_2, 
-								  	 POL_2_SOL_3, 
-								  	 POL_2_SOL_4, 
-								  	 POL_2_SOL_5, 
-								  	 POL_2_SOL_6, 
-								  	 POL_2_SOL_7, 
-									 POL_2_SOL_8, 
-									 POL_2_SOL_9, 
-									 POL_2_SOL_10, 
-									 POL_2_SOL_11, 
-									 POL_2_SOL_12, 
-									 POL_2_SOL_13, 
-									 POL_2_SOL_14, 
-									 POL_2_SOL_15, 
-									 POL_2_SOL_16, 
-									 POL_2_SOL_17, 
-									 POL_2_SOL_18, 
-									 POL_2_SOL_19, 
-									 POL_2_SOL_20, 
-									 POL_2_SOL_21, 
+int POL_2_SOLS[NUM_OF_POL_2_SOLS] = {POL_2_SOL_0,
+								  	 POL_2_SOL_1,
+								  	 POL_2_SOL_2,
+								  	 POL_2_SOL_3,
+								  	 POL_2_SOL_4,
+								  	 POL_2_SOL_5,
+								  	 POL_2_SOL_6,
+								  	 POL_2_SOL_7,
+									 POL_2_SOL_8,
+									 POL_2_SOL_9,
+									 POL_2_SOL_10,
+									 POL_2_SOL_11,
+									 POL_2_SOL_12,
+									 POL_2_SOL_13,
+									 POL_2_SOL_14,
+									 POL_2_SOL_15,
+									 POL_2_SOL_16,
+									 POL_2_SOL_17,
+									 POL_2_SOL_18,
+									 POL_2_SOL_19,
+									 POL_2_SOL_20,
+									 POL_2_SOL_21,
 									 POL_2_SOL_22,
 									 POL_2_SOL_23};
 
@@ -202,3 +221,20 @@ int POL_5_SOLS[NUM_OF_POL_5_SOLS] = {POL_5_SOL_0,
 									POL_5_SOL_6,
 									POL_5_SOL_7,
 									POL_5_SOL_8};
+
+int POL_6_COEFFS[POL_6_DEGREE+1] = {POL_6_COEFF_0,
+									POL_6_COEFF_1,
+									POL_6_COEFF_2,
+									POL_6_COEFF_3,
+									POL_6_COEFF_4,
+									POL_6_COEFF_5
+									};
+
+int POL_6_SOLS[NUM_OF_POL_6_SOLS] = {POL_6_SOL_0,
+									 POL_6_SOL_1,
+									 POL_6_SOL_2,
+									 POL_6_SOL_3,
+									 POL_6_SOL_4,
+									 POL_6_SOL_5,
+									 POL_6_SOL_6,
+									 POL_6_SOL_7};

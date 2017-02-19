@@ -13,7 +13,7 @@ int main(){
 	failures += solve_congruence_test(POL_3_DEGREE, POL_3_COEFFS, POL_3_MOD, NUM_OF_POL_3_SOLS, POL_3_SOLS);
 	failures += solve_congruence_test(POL_4_DEGREE, POL_4_COEFFS, POL_4_MOD, NUM_OF_POL_4_SOLS, POL_4_SOLS);
 	failures += solve_congruence_test(POL_5_DEGREE, POL_5_COEFFS, POL_5_MOD, NUM_OF_POL_5_SOLS, POL_5_SOLS);
-
+	failures += solve_congruence_test(POL_6_DEGREE, POL_6_COEFFS, POL_6_MOD, NUM_OF_POL_6_SOLS, POL_6_SOLS);
 
 	return failures;
 }
@@ -51,7 +51,7 @@ int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_o
 	for(i = 0; i < num_of_solutions; i++){
 		if(solutions[i] != solutions_to_test[i+1]){
 			printf("Incorrect %dth solution (after sorting) to congruence ", i);
-			
+
 			print_polynomial_inline(func_degree, func_coeffs);
 
 			printf(" = 0 (mod %d): %d given instead of %d.\n\n", mod, solutions_to_test[i+1], solutions[i]);

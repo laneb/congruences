@@ -8,218 +8,220 @@ static int * solve_prime_power_congruence(int degree, int coeffs[], int prime, i
 static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * lengthsOfSets, int ** sets, int mods[]);
 
 int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
-	int i;
-	int x = 0;
-	int m = mods[0];
-	int modCoeff;
+  int i;
+  int x = 0;
+  int m = mods[0];
+  int modCoeff;
 
-	for(i=1; i<numberOfEquations; i++){
-		m *= mods[i];
-	}
+  for(i=1; i<numberOfEquations; i++){
+    m *= mods[i];
+  }
 
-	for(i=0; i<numberOfEquations; i++){
-		modCoeff = m/mods[i];
-		x += modCoeff*mod_inv(modCoeff % mods[i], mods[i])*scals[i];
-	}
+  for(i=0; i<numberOfEquations; i++){
+    modCoeff = m/mods[i];
+    x += modCoeff*mod_inv(modCoeff % mods[i], mods[i])*scals[i];
+  }
 
-	return x % m;
+  return x % m;
 }
 
 
 int * adjust_coeffs_to_mod(int degree, int * coeffs, int mod){
-	int * adjustedCoeffs = calloc(degree+1, sizeof(int));
-	int i;
+  int * adjustedCoeffs = calloc(degree+1, sizeof(int));
+  int i;
 
-	for(i = 0; i <= degree; i++){
-		adjustedCoeffs[i] = coeffs[i] % mod;
-		if(adjustedCoeffs[i] < 0){
-			adjustedCoeffs[i] += mod;
-		}
-	}
+  for(i = 0; i <= degree; i++){
+    adjustedCoeffs[i] = coeffs[i] % mod;
+    if(adjustedCoeffs[i] < 0){
+      adjustedCoeffs[i] += mod;
+    }
+  }
 
-	return adjustedCoeffs;
+  return adjustedCoeffs;
 }
 
 
 int * brute_force_congruence(int degree, int coeffs[], int primeMod){
-	//assumes a prime modulus. split congruences of composite modulus into systems of congrueneces
-	//of prime modulus and/or apply the lifting theorem to make use of this function
-	//solve a0x^n + a1x^n-1... = 0 (mod mod) where n is the order a0, a1, ... are coeffieicients
-	//also assumes positive representation of coeffs
-	int * adjustedCoeffs = adjust_coeffs_to_mod(degree, coeffs, primeMod);
-	int * solutionList = calloc(degree+1, sizeof(int));
-	int * solutions = solutionList+1;
-	int numberOfSolutions = 0;
-	int x;
+  //assumes a prime modulus. split congruences of composite modulus into systems of congrueneces
+  //of prime modulus and/or apply the lifting theorem to make use of this function
+  //solve a0x^n + a1x^n-1... = 0 (mod mod) where n is the order a0, a1, ... are coeffieicients
+  //also assumes positive representation of coeffs
+  int * adjustedCoeffs = adjust_coeffs_to_mod(degree, coeffs, primeMod);
+  int * solutionList = calloc(degree+1, sizeof(int));
+  int * solutions = solutionList+1;
+  int numberOfSolutions = 0;
+  int x;
 
 
-	for(x = 0; x < primeMod && numberOfSolutions <= degree; x++){
-		if(mod_eval_polynomial(degree, adjustedCoeffs, primeMod, x) == 0){
-			solutions[numberOfSolutions++] = x;
-		}
-	}
+  for(x = 0; x < primeMod && numberOfSolutions <= degree; x++){
+    if(mod_eval_polynomial(degree, adjustedCoeffs, primeMod, x) == 0){
+      solutions[numberOfSolutions++] = x;
+    }
+  }
 
-	*solutionList = numberOfSolutions;
+  *solutionList = numberOfSolutions;
 
-	free(adjustedCoeffs);
+  free(adjustedCoeffs);
 
-	return solutionList;
+  return solutionList;
 }
 
 
 static int * solve_prime_power_congruence(int funcDegree, int funcCoeffs[], int prime, int power){
 
-	int * adjustedCoeffs;
+  int * adjustedCoeffs;
 
-	int * baseSolutionList;
-	int numOfBaseSolutions;
-	int * baseSolutions;
+  int * baseSolutionList;
+  int numOfBaseSolutions;
+  int * baseSolutions;
 
-	int * liftedSolutions;
-	int numOfLiftedSolutions;
+  int * liftedSolutions;
+  int numOfLiftedSolutions;
 
+  int coeff;
 
-	int derivDegree;
-	int * derivCoeffs;
-	int deriv;
-	long int divFunc;
+  int derivDegree;
+  int * derivCoeffs;
+  int deriv;
+  long int divFunc;
 
-	int j, t;
-	int currentMod;
+  int i, j, t;
+  int currentMod;
 
-	if(power == 1){
-		baseSolutions = brute_force_congruence(funcDegree, funcCoeffs, prime);
-		return baseSolutions;
-	}
+  if(power == 1){
+    baseSolutions = brute_force_congruence(funcDegree, funcCoeffs, prime);
+    return baseSolutions;
+  }
 
-	baseSolutionList = solve_prime_power_congruence(funcDegree, funcCoeffs, prime, power-1);
-	numOfBaseSolutions = *baseSolutionList;
-	baseSolutions = baseSolutionList+1;
+  baseSolutionList = solve_prime_power_congruence(funcDegree, funcCoeffs, prime, power-1);
+  numOfBaseSolutions = *baseSolutionList;
+  baseSolutions = baseSolutionList+1;
 
-	liftedSolutions = calloc(prime*numOfBaseSolutions+1, sizeof(int));
-	numOfLiftedSolutions = 0;
+  liftedSolutions = calloc(prime*numOfBaseSolutions+1, sizeof(int));
+  numOfLiftedSolutions = 0;
 
-	derivDegree = funcDegree-1;
-	derivCoeffs = calloc(derivDegree+1, sizeof(int));
+  derivDegree = funcDegree-1;
+  derivCoeffs = calloc(derivDegree+1, sizeof(int));
 
-	currentMod = prime;
-	for(j = 1; j < power; j++){
-		currentMod *= prime;
-	}
+  currentMod = prime;
+  for(j = 1; j < power; j++){
+    currentMod *= prime;
+  }
 
-	for(j = 0; j <= derivDegree; j++){ 
-		derivCoeffs[j] = mod_product(funcCoeffs[j+1] % prime, j+1, prime);
-	}
-
-
-	for(j = 0; j < numOfBaseSolutions; j++){
-
-		deriv = mod_eval_polynomial(derivDegree, derivCoeffs, prime, baseSolutions[j]);
-		divFunc = (eval_polynomial(funcDegree, funcCoeffs, baseSolutions[j]) / (currentMod/prime)) % prime;
-
-		if(deriv % prime != 0){
-			t = (-divFunc*mod_inv(deriv, prime) % prime) + prime;
-			liftedSolutions[++numOfLiftedSolutions] = baseSolutions[j] + t*prime;
-		}
-
-		else if(divFunc % prime == 0){
-			for(t = 1; t <= prime; t++){
-				liftedSolutions[++numOfLiftedSolutions] = baseSolutions[j] + t*(currentMod/prime);
-			}
-		}
-	}
+  for(j = 0; j <= derivDegree; j++){
+    coeff = funcCoeffs[j+1] % prime;
+    if(coeff < 0){
+      coeff += prime;
+    }
+    derivCoeffs[j] = mod_product(coeff, j+1, prime);
+  }
 
 
-	*liftedSolutions = numOfLiftedSolutions;
+  for(j = 0; j < numOfBaseSolutions; j++){
 
-	free(derivCoeffs);
-	free(baseSolutionList);
+    deriv = mod_eval_polynomial(derivDegree, derivCoeffs, prime, baseSolutions[j]);
+    divFunc = (eval_polynomial(funcDegree, funcCoeffs, baseSolutions[j]) / (currentMod/prime)) % prime;
 
-	return liftedSolutions;
+    if(deriv % prime != 0){
+      t = (-divFunc*mod_inv(deriv, prime) % prime) + prime;
+      liftedSolutions[++numOfLiftedSolutions] = baseSolutions[j] + t*prime;
+    }
+
+    else if(divFunc % prime == 0){
+      for(t = 1; t <= prime; t++){
+        liftedSolutions[++numOfLiftedSolutions] = baseSolutions[j] + t*(currentMod/prime);
+      }
+    }
+  }
+
+
+  *liftedSolutions = numOfLiftedSolutions;
+
+  free(derivCoeffs);
+  free(baseSolutionList);
+
+  return liftedSolutions;
 }
 
 
 static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLengths, int * * sets, int * mods){
-	//allocate perumtation array
-	int * divAry = calloc(numOfSets, sizeof(int));
-	int * scalAry = calloc(numOfSets, sizeof(int));
-	int i, j;
-	int numOfSolutions;
-	int * solutionAry;
-	int * dest;
-	int idx;
+  //allocate perumtation array
+  int * divAry = calloc(numOfSets, sizeof(int));
+  int * scalAry = calloc(numOfSets, sizeof(int));
+  int i, j;
+  int numOfSolutions;
+  int * solutionAry;
+  int * dest;
+  int idx;
 
-	for(i = 0, numOfSolutions = 1; i < numOfSets; i++){
-		divAry[i] = numOfSolutions;
-		numOfSolutions *= setLengths[i];
-	}
+  for(i = 0, numOfSolutions = 1; i < numOfSets; i++){
+    divAry[i] = numOfSolutions;
+    numOfSolutions *= setLengths[i];
+  }
 
-	solutionAry = calloc(numOfSolutions+1, sizeof(int));
-	solutionAry[0] = numOfSolutions;
-	dest = solutionAry+1;
+  solutionAry = calloc(numOfSolutions+1, sizeof(int));
+  solutionAry[0] = numOfSolutions;
+  dest = solutionAry+1;
 
-	for(i = 0; i < numOfSolutions; i++){
-		for(j = 0; j < numOfSets; j++){
-			idx = (i / divAry[j]) % setLengths[j];
-			scalAry[j] = sets[j][idx];
-		}
+  for(i = 0; i < numOfSolutions; i++){
+    for(j = 0; j < numOfSets; j++){
+      idx = (i / divAry[j]) % setLengths[j];
+      scalAry[j] = sets[j][idx];
+    }
 
-		*(dest++) = chinese_remainder_solution(numOfSets, scalAry, mods);
-	}
+    *(dest++) = chinese_remainder_solution(numOfSets, scalAry, mods);
+  }
 
-	return solutionAry;
+  return solutionAry;
 }
 
 int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
-	int * solutionList;
+  int * solutionList;
 
-	int * modFactorList = prime_factors(mod);
-	int numOfModFactors = *modFactorList;
-	int * modFactors = modFactorList+1;
+  int * modFactorList = prime_factors(mod);
+  int numOfModFactors = *modFactorList;
+  int * modFactors = modFactorList+1;
 
-	int * * primePowerSolutions = calloc(numOfModFactors, sizeof(int *));
-	int * primePowers = calloc(numOfModFactors, sizeof(int));
-	int * primePowerSolutionLengths = calloc(numOfModFactors, sizeof(int *));
+  int * * primePowerSolutions = calloc(numOfModFactors, sizeof(int *));
+  int * primePowers = calloc(numOfModFactors, sizeof(int));
+  int * primePowerSolutionLengths = calloc(numOfModFactors, sizeof(int *));
 
-	int power;
-	int i;
+  int power;
+  int i;
 
-	for(i = 0; i < numOfModFactors; i++){
-		primePowers[i] = modFactors[i]; 
-		power = 1;
-		
-		while(mod % (primePowers[i]*modFactors[i]) == 0){
-			primePowers[i] *= modFactors[i];
-			power++;
-		}
+  for(i = 0; i < numOfModFactors; i++){
+    primePowers[i] = modFactors[i]; 
+    power = 1;
+    
+    while(mod % (primePowers[i]*modFactors[i]) == 0){
+      primePowers[i] *= modFactors[i];
+      power++;
+    }
 
-		primePowerSolutions[i] = solve_prime_power_congruence(funcDegree, funcCoeffs, modFactors[i], power);
-		primePowerSolutionLengths[i] = *(primePowerSolutions[i]++);
-	}
+    primePowerSolutions[i] = solve_prime_power_congruence(funcDegree, funcCoeffs, modFactors[i], power);
+    primePowerSolutionLengths[i] = *(primePowerSolutions[i]++);
+  }
 
+  solutionList = solve_system_of_order_1_congruence_sets(numOfModFactors, primePowerSolutionLengths, primePowerSolutions, primePowers);
 
-	solutionList = solve_system_of_order_1_congruence_sets(numOfModFactors, primePowerSolutionLengths, primePowerSolutions, primePowers);
+  for(i = 0; i < numOfModFactors; i++){
+    free(primePowerSolutions[i] - 1);
+  }
+  free(primePowerSolutionLengths);
+  free(primePowerSolutions);
+  free(primePowers);
+  free(modFactorList);
 
-	for(i = 0; i < numOfModFactors; i++){
-		free(primePowerSolutions[i] - 1);
-	}
-	free(primePowerSolutionLengths);
-	free(primePowerSolutions);
-	free(primePowers);
-	free(modFactorList);
-
-	return solutionList;
+  return solutionList;
 }
 
 /*
 int * solve_system_of_congruences(int numOfFuncs, int * funcDegrees, int ** funcCoeffs, int * mods){
-	int i;
-	int * * funcSolutionSets = calloc(numOfFuncs, sizeof(int *));
-
-	for(i=0; i<numOfFuncs; i++){
-		funcSolutionSets[i] = solve_congruence(funcDegrees[i], funcCoeffs[i], mods[i]);
-	}
-
-	return solve_system_of_congruence_sets(numOfFuncs, funcSolutionSets, mods);
-}	
+  int i;
+  int * * funcSolutionSets = calloc(numOfFuncs, sizeof(int *));
+  for(i=0; i<numOfFuncs; i++){
+    funcSolutionSets[i] = solve_congruence(funcDegrees[i], funcCoeffs[i], mods[i]);
+  }
+  return solve_system_of_congruence_sets(numOfFuncs, funcSolutionSets, mods);
+} 
 */
