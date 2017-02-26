@@ -14,6 +14,7 @@ int main(){
 	failures += solve_congruence_test(POL_4_DEGREE, POL_4_COEFFS, POL_4_MOD, NUM_OF_POL_4_SOLS, POL_4_SOLS);
 	failures += solve_congruence_test(POL_5_DEGREE, POL_5_COEFFS, POL_5_MOD, NUM_OF_POL_5_SOLS, POL_5_SOLS);
 	failures += solve_congruence_test(POL_6_DEGREE, POL_6_COEFFS, POL_6_MOD, NUM_OF_POL_6_SOLS, POL_6_SOLS);
+	failures += solve_congruence_test(POL_7_DEGREE, POL_7_COEFFS, POL_7_MOD, NUM_OF_POL_7_SOLS, POL_7_SOLS);
 
 	return failures;
 }

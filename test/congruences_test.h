@@ -124,6 +124,14 @@
 #define POL_6_SOL_6 36
 #define POL_6_SOL_7 43
 
+#define POL_7_DEGREE 2
+#define POL_7_COEFF_0 1
+#define POL_7_COEFF_1 -4
+#define POL_7_COEFF_2 4
+#define POL_7_MOD 306893
+#define NUM_OF_POL_7_SOLS 1
+#define POL_7_SOL_0 153447
+
 
 int POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0,
 									POL_1_COEFF_1,
@@ -238,3 +246,9 @@ int POL_6_SOLS[NUM_OF_POL_6_SOLS] = {POL_6_SOL_0,
 									 POL_6_SOL_5,
 									 POL_6_SOL_6,
 									 POL_6_SOL_7};
+
+int POL_7_COEFFS[POL_7_DEGREE+1] = {POL_7_COEFF_0,
+										POL_7_COEFF_1,
+									  POL_7_COEFF_2};
+
+int POL_7_SOLS[NUM_OF_POL_7_SOLS] = {POL_7_SOL_0};
