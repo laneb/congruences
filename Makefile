@@ -14,5 +14,6 @@ test: prime_gen_test arith_utils_test congruences_test
 	./congruences_test
 
 clean:
-	rm -f prime_gen_test.exe arith_utils_test.exe congruences_test.exe
+	rm -f prime_gen_test arith_utils_test congruences_test
+	rm -rf prime_gen_test.dSYM arith_utils_test.dSYM congruences_test.dSYM
 	
