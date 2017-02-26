@@ -2,7 +2,7 @@
 #include "../prime_gen.h"
 #include "prime_gen_test.h"
 
-
+int prime_factors_test(int num, int * expected_factors, int num_of_expected_factors);
 
 int main(){
   int failures = 0;
@@ -28,7 +28,7 @@ int main(){
   }
 
   printf("First %d primes generated without error.\n\n", LIST_LENGTH_FOR_PRIMES_TEST);
- 
+
   //Due to the implementation of prime generation and calculation of a maximum divisor
   //2 (and 3, for the same reason) arises as a corner case
   failures += prime_factors_test(2, FACTORS_OF_2, 1);
@@ -36,12 +36,12 @@ int main(){
   //Factorization of a prime should return an array containig a 1 followed by the prime itself.
   failures += prime_factors_test(PRIME_TO_FACTOR, FACTORS_OF_PRIME, 1);
 
-  //Factorization of a  composite should return an array containing the number of factors and the 
-  //followed by the factors. 
+  //Factorization of a  composite should return an array containing the number of factors and the
+  //followed by the factors.
   failures += prime_factors_test(SMALL_COMPOSITE, FACTORS_OF_SMALL_COMPOSITE, NUM_OF_SMALL_COMPOSITE_FACTORS);
 
   //Factorization of composites with factors to powers greater than 1 should still only list each factor once.
-  failures += prime_factors_test(COMPOSITE_WITH_REPEATED_FACTORS, REPEATED_FACTORS, NUM_OF_REPEATED_FACTORS); 
+  failures += prime_factors_test(COMPOSITE_WITH_REPEATED_FACTORS, REPEATED_FACTORS, NUM_OF_REPEATED_FACTORS);
 
   //Original implementation ran took several minutes to generate the primes necessary
   //to factor large numbers.
@@ -54,6 +54,9 @@ int main(){
   printf("Beginning to factor a composite with no small prime factors (%d). A stall here would indicate slow execution.\n",
           COMPOSITE_WITH_LARGE_FACTORS);
   failures += prime_factors_test(COMPOSITE_WITH_LARGE_FACTORS, LARGE_FACTORS, NUM_OF_LARGE_FACTORS);
+
+  printf("Beginning to factor a large prime (%d). A stall here would indicate slow execution.\n", LARGE_PRIME);
+  failures += prime_factors_test(LARGE_PRIME, LARGE_PRIME_FACTORS, NUM_LARGE_PRIME_FACTORS);
 
   return failures;
 }
