@@ -4,7 +4,7 @@
 #include "arith_utils.h"
 
 //Expects 0 <= x,y < mod
-int mod_sum(int x, int y, int mod){
+long mod_sum(long x, long y, long mod){
 	if(y >= mod - x){
 		return y - (mod - x);
 	}
@@ -15,8 +15,8 @@ int mod_sum(int x, int y, int mod){
 }
 
 
-int mod_inv(int n, int mod){
-	int y, a;
+long mod_inv(long n, long mod){
+	long y, a;
 
 	if(n!=0){
 
@@ -37,9 +37,9 @@ int mod_inv(int n, int mod){
 }
 
 
-int mod_product(int num1, int num2, int mod){
-	int prod = 0;
-	int i;
+long mod_product(long num1, long num2, long mod){
+	long prod = 0;
+	long i;
 
 	for(i = 0; i < num1; i++){
 		prod = mod_sum(prod, num2, mod);
@@ -49,16 +49,14 @@ int mod_product(int num1, int num2, int mod){
 }
 
 
-int mod_eval_polynomial(int degree, int coeffs[], int mod, int x){
+long mod_eval_polynomial(int degree, long coeffs[], long mod, long x){
 	long long tot = coeffs[degree];
-	long long modl = (long long) mod;
-	long long xl = (long long) x;
 	int i;
 
 	for(i = degree - 1; i >= 0; i--){
-		tot = (tot*xl) % modl;
-		tot = (tot + (long long) coeffs[i]) % modl;
+		tot = ( (long long) tot*x ) % mod;
+		tot = ( (long long) tot + coeffs[i] ) % mod;
 	}
 
-	return (int) tot;
+	return (long) tot;
 }

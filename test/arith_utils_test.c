@@ -2,6 +2,10 @@
 #include "../arith_utils.h"
 #include "arith_utils_test.h"
 
+long mod_product_test(long * pair, long mod, long product);
+long mod_inv_test(long num, long mod, long inv);
+long mod_eval_polynomial_test(int degree, long coeffs[], long mod, long x, long val);
+
 int main(){
 	int failures = 0;
 	int i;
@@ -23,8 +27,8 @@ int main(){
 }
 
 
-int mod_product_test(int * pair, int mod, int product){
-	int prod = mod_product(pair[0], pair[1], mod);
+long mod_product_test(long * pair, long mod, long product){
+	long prod = mod_product(pair[0], pair[1], mod);
 
 	if(prod != product){
 		printf("Incorrect evaluation of %d*%d mod %d: %d instead of %d.\n",
@@ -36,8 +40,8 @@ int mod_product_test(int * pair, int mod, int product){
 }
 
 
-int mod_inv_test(int num, int mod, int inv){
-	int invEval = mod_inv(num, mod);
+long mod_inv_test(long num, long mod, long inv){
+	long invEval = mod_inv(num, mod);
 
 	if(inv != invEval){
 		printf("Incorrect evaluation of %d^-1 mod %d: %d instead of %d.\n", num, mod, invEval, inv);
@@ -47,8 +51,8 @@ int mod_inv_test(int num, int mod, int inv){
 	return 0;
 }
 
-int mod_eval_polynomial_test(int degree, int coeffs[], int mod, int x, int val) {
-	int eval = mod_eval_polynomial(degree, coeffs, mod, x);
+long mod_eval_polynomial_test(int degree, long coeffs[], long mod, long x, long val) {
+	long eval = mod_eval_polynomial(degree, coeffs, mod, x);
 
 	if(eval != val){
 		printf("Incorrect evaliation of polynomial: %d instead of %d\n", eval, val);

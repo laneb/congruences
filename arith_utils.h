@@ -1,6 +1,6 @@
 #ifndef H_ARITH_UTILS
 #define H_ARITH_UTILS
-int mod_inv(int n, int mod);
-int mod_product(int n1, int n2, int mod);
-int mod_eval_polynomial(int degree, int coeffs[], int mod, int x);
+long mod_inv(long n, long mod);
+long mod_product(long n1, long n2, long mod);
+long mod_eval_polynomial(int degree, long coeffs[], long mod, long x);
 #endif

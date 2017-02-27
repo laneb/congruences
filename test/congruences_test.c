@@ -2,9 +2,9 @@
 #include "../congruences.h"
 #include "congruences_test.h"
 
-void print_polynomial_inline(int func_degree, int * func_coeffs);
-int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_of_solutions, int * solutions);
-void print_solutions_incorrect(int func_degree, int func_coeffs[], int mod, int exp_sol[], int num_exp_sol, int fnd_sol[], int num_found_sol);
+void print_polynomial_inline(int func_degree, long * func_coeffs);
+int solve_congruence_test(int func_degree, long * func_coeffs, int mod, int num_of_solutions, int * solutions);
+void print_solutions_incorrect(int func_degree, long func_coeffs[], int mod, int exp_sol[], int num_exp_sol, int fnd_sol[], int num_found_sol);
 
 int main(){
 	int failures = 0;
@@ -25,7 +25,7 @@ int int_array_cmp_func(const void * a, const void * b){
 	return *((int *)a) - *((int *) b);
 }
 
-int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_of_solutions, int * solutions){
+int solve_congruence_test(int func_degree, long * func_coeffs, int mod, int num_of_solutions, int * solutions){
 	int * solutions_to_test = solve_congruence(func_degree, func_coeffs, mod);
 	int i, j;
 
@@ -51,7 +51,7 @@ int solve_congruence_test(int func_degree, int * func_coeffs, int mod, int num_o
 	return 0;
 }
 
-void print_solutions_incorrect(int func_degree, int func_coeffs[], int mod, int exp_sol[], int num_exp_sol, int fnd_sol[], int num_found_sol) {
+void print_solutions_incorrect(int func_degree, long func_coeffs[], int mod, int exp_sol[], int num_exp_sol, int fnd_sol[], int num_found_sol) {
 		int i;
 
 		printf("Incorrect solutions found for congruence ");
@@ -70,7 +70,7 @@ void print_solutions_incorrect(int func_degree, int func_coeffs[], int mod, int 
 		}
 }
 
-void print_polynomial_inline(int func_degree, int * func_coeffs){
+void print_polynomial_inline(int func_degree, long * func_coeffs){
 	int j;
 
 	for(j = func_degree; j >= 1; j--){
