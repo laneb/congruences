@@ -150,7 +150,7 @@ long POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0,
 									POL_1_COEFF_2,
 									POL_1_COEFF_3,
 									POL_1_COEFF_4};
-int POL_1_SOLS[NUM_OF_POL_1_SOLS] = {POL_1_SOL_0,
+long POL_1_SOLS[NUM_OF_POL_1_SOLS] = {POL_1_SOL_0,
 									 POL_1_SOL_1,
 									 POL_1_SOL_2,
 									 POL_1_SOL_3,
@@ -171,7 +171,7 @@ long POL_2_COEFFS[POL_2_DEGREE+1] = {POL_2_COEFF_0,
 									POL_2_COEFF_5,
 									POL_2_COEFF_6};
 
-int POL_2_SOLS[NUM_OF_POL_2_SOLS] = {POL_2_SOL_0,
+long POL_2_SOLS[NUM_OF_POL_2_SOLS] = {POL_2_SOL_0,
 								  	 POL_2_SOL_1,
 								  	 POL_2_SOL_2,
 								  	 POL_2_SOL_3,
@@ -208,13 +208,13 @@ long POL_3_COEFFS[POL_3_DEGREE+1] = {POL_3_COEFF_0,
 									POL_3_COEFF_9
 									};
 
-int * POL_3_SOLS = NULL;
+long * POL_3_SOLS = NULL;
 
 long POL_4_COEFFS[POL_4_DEGREE+1] = {POL_4_COEFF_0,
 									POL_4_COEFF_1,
 									POL_4_COEFF_2};
 
-int POL_4_SOLS[NUM_OF_POL_4_SOLS] = {POL_4_SOL_0,
+long POL_4_SOLS[NUM_OF_POL_4_SOLS] = {POL_4_SOL_0,
 									POL_4_SOL_1,
 									POL_4_SOL_2,
 									POL_4_SOL_3};
@@ -232,7 +232,7 @@ long POL_5_COEFFS[POL_5_DEGREE+1] = {POL_5_COEFF_0,
 									POL_5_COEFF_10,
 									POL_5_COEFF_11};
 
-int POL_5_SOLS[NUM_OF_POL_5_SOLS] = {POL_5_SOL_0,
+long POL_5_SOLS[NUM_OF_POL_5_SOLS] = {POL_5_SOL_0,
 									POL_5_SOL_1,
 									POL_5_SOL_2,
 									POL_5_SOL_3,
@@ -250,7 +250,7 @@ long POL_6_COEFFS[POL_6_DEGREE+1] = {POL_6_COEFF_0,
 									POL_6_COEFF_5
 									};
 
-int POL_6_SOLS[NUM_OF_POL_6_SOLS] = {POL_6_SOL_0,
+long POL_6_SOLS[NUM_OF_POL_6_SOLS] = {POL_6_SOL_0,
 									 POL_6_SOL_1,
 									 POL_6_SOL_2,
 									 POL_6_SOL_3,
@@ -263,12 +263,12 @@ long POL_7_COEFFS[POL_7_DEGREE+1] = {POL_7_COEFF_0,
 										POL_7_COEFF_1,
 									  POL_7_COEFF_2};
 
-int POL_7_SOLS[NUM_OF_POL_7_SOLS] = {POL_7_SOL_0};
+long POL_7_SOLS[NUM_OF_POL_7_SOLS] = {POL_7_SOL_0};
 
 long POL_8_COEFFS[POL_8_DEGREE+1] = {POL_8_COEFF_0,
 										POL_8_COEFF_1,
 									  POL_8_COEFF_2};
 
-int POL_8_SOLS[NUM_OF_POL_8_SOLS] = {POL_8_SOL_0,
+long POL_8_SOLS[NUM_OF_POL_8_SOLS] = {POL_8_SOL_0,
 										POL_8_SOL_1,
 										POL_8_SOL_2};

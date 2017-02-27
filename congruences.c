@@ -3,15 +3,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static long * adjust_coeffs_to_mod(int degree, long * coeffs, int mod);
-static int * solve_prime_power_congruence(int degree, long coeffs[], int prime, int power);
-static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * lengthsOfSets, int ** sets, int mods[]);
+static long * adjust_coeffs_to_mod(int degree, long * coeffs, long mod);
+static long * solve_prime_power_congruence(int degree, long coeffs[], long prime, int power);
+static long * solve_system_of_order_1_congruence_sets(int numOfSets, int * lengthsOfSets, long ** sets, long mods[]);
 
-int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
+long chinese_remainder_solution(int numberOfEquations, long scals[], long mods[]){
   int i;
-  long x = 0;
-  int m = mods[0];
-  int modCoeff;
+  long long x = 0;
+  long m = mods[0];
+  long modCoeff;
 
   for(i=1; i<numberOfEquations; i++){
     m *= mods[i];
@@ -19,7 +19,7 @@ int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
 
   for(i=0; i<numberOfEquations; i++){
     modCoeff = m/mods[i];
-    x += (long) modCoeff*mod_inv(modCoeff % mods[i], mods[i])*scals[i] % m;
+    x += (long long) modCoeff*mod_inv(modCoeff % mods[i], mods[i])*scals[i] % m;
     x %= m;
   }
 
@@ -27,7 +27,7 @@ int chinese_remainder_solution(int numberOfEquations, int scals[], int mods[]){
 }
 
 
-long * adjust_coeffs_to_mod(int degree, long * coeffs, int mod){
+long * adjust_coeffs_to_mod(int degree, long * coeffs, long mod){
   long * adjustedCoeffs = calloc(degree+1, sizeof(long));
   int i;
 
@@ -42,16 +42,16 @@ long * adjust_coeffs_to_mod(int degree, long * coeffs, int mod){
 }
 
 
-int * brute_force_congruence(int degree, long coeffs[], int primeMod){
+long * brute_force_congruence(int degree, long coeffs[], long primeMod){
   //assumes a prime modulus. split congruences of composite modulus into systems of congrueneces
   //of prime modulus and/or apply the lifting theorem to make use of this function
   //solve a0x^n + a1x^n-1... = 0 (mod mod) where n is the order a0, a1, ... are coeffieicients
   //also assumes positive representation of coeffs
   long * adjustedCoeffs = adjust_coeffs_to_mod(degree, coeffs, primeMod);
-  int * solutionList = calloc(degree+1, sizeof(int));
-  int * solutions = solutionList+1;
+  long * solutionList = calloc(degree+1, sizeof(int));
+  long * solutions = solutionList+1;
   int numberOfSolutions = 0;
-  int x;
+  long x;
 
 
   for(x = 0; x < primeMod && numberOfSolutions <= degree; x++){
@@ -68,23 +68,23 @@ int * brute_force_congruence(int degree, long coeffs[], int primeMod){
 }
 
 
-static int * solve_prime_power_congruence(int funcDegree, long funcCoeffs[], int prime, int power){
-  int * baseSolutionList;
+static long * solve_prime_power_congruence(int funcDegree, long funcCoeffs[], long prime, int power){
+  long * baseSolutionList;
   int numOfBaseSolutions;
-  int * baseSolutions;
+  long * baseSolutions;
 
-  int * liftedSolutions;
+  long * liftedSolutions;
   int numOfLiftedSolutions;
 
-  int coeff;
+  long coeff;
 
   int derivDegree;
   long * derivCoeffs;
-  int deriv;
-  long int func;
+  long deriv;
+  long func;
 
   int i, j, t;
-  int currentMod;
+  long currentMod;
 
   if(power == 1){
     baseSolutions = brute_force_congruence(funcDegree, funcCoeffs, prime);
@@ -95,7 +95,7 @@ static int * solve_prime_power_congruence(int funcDegree, long funcCoeffs[], int
   numOfBaseSolutions = *baseSolutionList;
   baseSolutions = baseSolutionList+1;
 
-  liftedSolutions = calloc(prime*numOfBaseSolutions+1, sizeof(int));
+  liftedSolutions = calloc(prime*numOfBaseSolutions+1, sizeof(long));
   numOfLiftedSolutions = 0;
 
   derivDegree = funcDegree-1;
@@ -142,14 +142,14 @@ static int * solve_prime_power_congruence(int funcDegree, long funcCoeffs[], int
 }
 
 
-static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLengths, int * * sets, int * mods){
+static long * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLengths, long * * sets, long * mods){
   //allocate perumtation array
-  int * divAry = calloc(numOfSets, sizeof(int));
-  int * scalAry = calloc(numOfSets, sizeof(int));
+  long * divAry = calloc(numOfSets, sizeof(long));
+  long * scalAry = calloc(numOfSets, sizeof(long));
   int i, j;
   int numOfSolutions;
-  int * solutionAry;
-  int * dest;
+  long * solutionAry;
+  long * dest;
   int idx;
 
   for(i = 0, numOfSolutions = 1; i < numOfSets; i++){
@@ -157,7 +157,7 @@ static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLen
     numOfSolutions *= setLengths[i];
   }
 
-  solutionAry = calloc(numOfSolutions+1, sizeof(int));
+  solutionAry = calloc(numOfSolutions+1, sizeof(long));
   solutionAry[0] = numOfSolutions;
   dest = solutionAry+1;
 
@@ -173,15 +173,15 @@ static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLen
   return solutionAry;
 }
 
-int * solve_congruence(int funcDegree, long funcCoeffs[], int mod){
-  int * solutionList;
+long * solve_congruence(int funcDegree, long funcCoeffs[], long mod){
+  long * solutionList;
 
   long * modFactorList = prime_factors(mod);
   long numOfModFactors = *modFactorList;
   long * modFactors = modFactorList+1;
 
-  int * * primePowerSolutions = calloc(numOfModFactors, sizeof(int *));
-  int * primePowers = calloc(numOfModFactors, sizeof(int));
+  long * * primePowerSolutions = calloc(numOfModFactors, sizeof(long *));
+  long * primePowers = calloc(numOfModFactors, sizeof(long));
   int * primePowerSolutionLengths = calloc(numOfModFactors, sizeof(int *));
 
   int power;

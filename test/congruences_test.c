@@ -3,8 +3,8 @@
 #include "congruences_test.h"
 
 void print_polynomial_inline(int func_degree, long * func_coeffs);
-int solve_congruence_test(int func_degree, long * func_coeffs, int mod, int num_of_solutions, int * solutions);
-void print_solutions_incorrect(int func_degree, long func_coeffs[], int mod, int exp_sol[], int num_exp_sol, int fnd_sol[], int num_found_sol);
+int solve_congruence_test(int func_degree, long * func_coeffs, long mod, int num_of_solutions, long * solutions);
+void print_solutions_incorrect(int func_degree, long func_coeffs[], long mod, long exp_sol[], int num_exp_sol, long fnd_sol[], int num_found_sol);
 
 int main(){
 	int failures = 0;
@@ -22,15 +22,15 @@ int main(){
 }
 
 int int_array_cmp_func(const void * a, const void * b){
-	return *((int *)a) - *((int *) b);
+	return *((long *)a) - *((long *) b);
 }
 
-int solve_congruence_test(int func_degree, long * func_coeffs, int mod, int num_of_solutions, int * solutions){
-	int * solutions_to_test = solve_congruence(func_degree, func_coeffs, mod);
+int solve_congruence_test(int func_degree, long * func_coeffs, long mod, int num_of_solutions, long * solutions){
+	long * solutions_to_test = solve_congruence(func_degree, func_coeffs, mod);
 	int i, j;
 
-	qsort(solutions_to_test+1, solutions_to_test[0], sizeof(int), int_array_cmp_func);
-	qsort(solutions, num_of_solutions, sizeof(int), int_array_cmp_func);
+	qsort(solutions_to_test+1, solutions_to_test[0], sizeof(long), int_array_cmp_func);
+	qsort(solutions, num_of_solutions, sizeof(long), int_array_cmp_func);
 
 	if(num_of_solutions != solutions_to_test[0]){
 		print_solutions_incorrect(func_degree, func_coeffs, mod, solutions, num_of_solutions, solutions_to_test+1, solutions_to_test[0]);
@@ -51,7 +51,7 @@ int solve_congruence_test(int func_degree, long * func_coeffs, int mod, int num_
 	return 0;
 }
 
-void print_solutions_incorrect(int func_degree, long func_coeffs[], int mod, int exp_sol[], int num_exp_sol, int fnd_sol[], int num_found_sol) {
+void print_solutions_incorrect(int func_degree, long func_coeffs[], long mod, long exp_sol[], int num_exp_sol, long fnd_sol[], int num_found_sol) {
 		int i;
 
 		printf("Incorrect solutions found for congruence ");
