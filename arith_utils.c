@@ -102,12 +102,14 @@ int totient(int n){
 
 
 int mod_eval_polynomial(int degree, int coeffs[], int mod, int x){
-	long tot = coeffs[degree];
+	long long tot = coeffs[degree];
+	long long modl = (long long) mod;
+	long long xl = (long long) x;
 	int i;
 
 	for(i = degree - 1; i >= 0; i--){
-		tot = (x*tot) % mod;
-		tot = (tot + coeffs[i]) % mod;
+		tot = (tot*xl) % modl;
+		tot = (tot + (long long) coeffs[i]) % modl;
 	}
 
 	return (int) tot;

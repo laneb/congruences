@@ -1,3 +1,5 @@
+#include <limits.h>
+
 #define POL_1_DEGREE 4
 #define POL_1_COEFF_0 0
 #define POL_1_COEFF_1 9
@@ -132,6 +134,16 @@
 #define NUM_OF_POL_7_SOLS 1
 #define POL_7_SOL_0 153447
 
+#define POL_8_DEGREE 2
+#define POL_8_COEFF_0 1
+#define POL_8_COEFF_1 -2
+#define POL_8_COEFF_2 1
+#define POL_8_MOD INT_MAX-1
+#define NUM_OF_POL_8_SOLS 3
+#define POL_8_SOL_0 1
+#define POL_8_SOL_1 715827883
+#define POL_8_SOL_2 1431655765
+
 
 int POL_1_COEFFS[POL_1_DEGREE+1] = {POL_1_COEFF_0,
 									POL_1_COEFF_1,
@@ -252,3 +264,11 @@ int POL_7_COEFFS[POL_7_DEGREE+1] = {POL_7_COEFF_0,
 									  POL_7_COEFF_2};
 
 int POL_7_SOLS[NUM_OF_POL_7_SOLS] = {POL_7_SOL_0};
+
+int POL_8_COEFFS[POL_8_DEGREE+1] = {POL_8_COEFF_0,
+										POL_8_COEFF_1,
+									  POL_8_COEFF_2};
+
+int POL_8_SOLS[NUM_OF_POL_8_SOLS] = {POL_8_SOL_0,
+										POL_8_SOL_1,
+										POL_8_SOL_2};

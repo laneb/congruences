@@ -1,12 +1,13 @@
+CC = gcc-6 -fopenmp -std=c99
 
 congruences_test: congruences.c test/congruences_test.c test/congruences_test.h arith_utils.c prime_gen.c
-	gcc -g prime_gen.c arith_utils.c congruences.c test/congruences_test.c -o congruences_test
+	$(CC) -g prime_gen.c arith_utils.c congruences.c test/congruences_test.c -o congruences_test
 
 arith_utils_test: arith_utils.c test/arith_utils_test.c test/arith_utils_test.h prime_gen.c
-	gcc -g prime_gen.c arith_utils.c test/arith_utils_test.c -o arith_utils_test
+	$(CC) -g prime_gen.c arith_utils.c test/arith_utils_test.c -o arith_utils_test
 
 prime_gen_test: prime_gen.c test/prime_gen_test.c test/prime_gen_test.h
-	gcc -g prime_gen.c test/prime_gen_test.c -o prime_gen_test
+	$(CC) -g prime_gen.c test/prime_gen_test.c -o prime_gen_test
 
 test: prime_gen_test arith_utils_test congruences_test
 	./prime_gen_test
