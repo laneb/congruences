@@ -212,14 +212,3 @@ int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
 
   return solutionList;
 }
-
-/*
-int * solve_system_of_congruences(int numOfFuncs, int * funcDegrees, int ** funcCoeffs, int * mods){
-  int i;
-  int * * funcSolutionSets = calloc(numOfFuncs, sizeof(int *));
-  for(i=0; i<numOfFuncs; i++){
-    funcSolutionSets[i] = solve_congruence(funcDegrees[i], funcCoeffs[i], mods[i]);
-  }
-  return solve_system_of_congruence_sets(numOfFuncs, funcSolutionSets, mods);
-}
-*/
