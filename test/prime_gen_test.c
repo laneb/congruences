@@ -2,12 +2,12 @@
 #include "../prime_gen.h"
 #include "prime_gen_test.h"
 
-int prime_factors_test(int num, int * expected_factors, int num_of_expected_factors);
+int prime_factors_test(long num, long * expected_factors, int num_of_expected_factors);
 
 int main(){
   int failures = 0;
   int i;
-  int * prime_ary_to_test = primes_upto(MAX_PRIME_FOR_PRIMES_UPTO_TEST)+1;
+  long * prime_ary_to_test = primes_upto(MAX_PRIME_FOR_PRIMES_UPTO_TEST)+1;
 
   for(i=0; PRIME_ARY[i] <= MAX_PRIME_FOR_PRIMES_UPTO_TEST; i++){
     if(PRIME_ARY[i] != prime_ary_to_test[i]){
@@ -62,8 +62,8 @@ int main(){
 }
 
 
-int prime_factors_test(int num, int * expected_factors, int num_of_expected_factors){
-  int * factor_list = prime_factors(num);
+int prime_factors_test(long num, long * expected_factors, int num_of_expected_factors){
+  long * factor_list = prime_factors(num);
   int i;
 
   if(factor_list[0] != num_of_expected_factors){

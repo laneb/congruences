@@ -176,9 +176,9 @@ static int * solve_system_of_order_1_congruence_sets(int numOfSets, int * setLen
 int * solve_congruence(int funcDegree, int funcCoeffs[], int mod){
   int * solutionList;
 
-  int * modFactorList = prime_factors(mod);
-  int numOfModFactors = *modFactorList;
-  int * modFactors = modFactorList+1;
+  long * modFactorList = prime_factors(mod);
+  long numOfModFactors = *modFactorList;
+  long * modFactors = modFactorList+1;
 
   int * * primePowerSolutions = calloc(numOfModFactors, sizeof(int *));
   int * primePowers = calloc(numOfModFactors, sizeof(int));
