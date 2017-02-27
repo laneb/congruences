@@ -37,27 +37,6 @@ int mod_inv(int n, int mod){
 }
 
 
-int coprime(int n1, int n2){
-	//naive algorithm but efficient when n1 has already been factorized
-	int * n1Factors = prime_factors(n1);
-	int numOfFactors = *n1Factors;
-	int * factors = n1Factors+1;
-	int shareFactor = 0;
-	int i;
-
-	for(i=0; i<numOfFactors; i++){
-		if(n2 % factors[i] == 0){
-			shareFactor = 1;
-			break;
-		}
-	}
-
-	free(n1Factors);
-
-	return !shareFactor;
-}
-
-
 int mod_product(int num1, int num2, int mod){
 	int prod = 0;
 	int i;
@@ -68,37 +47,6 @@ int mod_product(int num1, int num2, int mod){
 
 	return prod;
 }
-
-//expects 0 <= n < mod
-int mod_power(int n, int power, int mod){
-	int product = n;
-	int i;
-
-	for(i = 1; i < power; i++){
-		product = mod_product(product, n, mod);
-	}
-
-	return product;
-}
-
-
-int totient(int n){
-	int * divisorList = prime_factors(n);
-	int listLength = divisorList[0];
-	int * divisors = divisorList+1;
-	int i;
-
-	for(i = 0; i < listLength; i++){
-		n *= (divisors[i] - 1);
-		n /= divisors[i];
-	}
-
-	free(divisorList);
-
-	return n;
-}
-
-
 
 
 int mod_eval_polynomial(int degree, int coeffs[], int mod, int x){
@@ -114,25 +62,3 @@ int mod_eval_polynomial(int degree, int coeffs[], int mod, int x){
 
 	return (int) tot;
 }
-
-
-long  eval_polynomial(int degree, int coeffs[], int x){
-	long int sum = coeffs[0];
- 	long int powx;
-	int i;
-
-	for(i = 1, powx = x; i <= degree; i++, powx*=x){
-		sum += powx*coeffs[i];
-	}
-
-	return sum;
-}
-
-
-
-
-/*
-int * linear_diophantine_solution(int order, int coeffs[], int scal){
-
-*=}
-*/
