@@ -48,7 +48,7 @@ long * brute_force_congruence(int degree, long coeffs[], long primeMod){
   //solve a0x^n + a1x^n-1... = 0 (mod mod) where n is the order a0, a1, ... are coeffieicients
   //also assumes positive representation of coeffs
   long * adjustedCoeffs = adjust_coeffs_to_mod(degree, coeffs, primeMod);
-  long * solutionList = calloc(degree+1, sizeof(int));
+  long * solutionList = calloc(degree+1, sizeof(long));
   long * solutions = solutionList+1;
   int numberOfSolutions = 0;
   long x;
