@@ -2,6 +2,7 @@
 #include "prime_gen.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <omp.h>
 
 static long * adjust_coeffs_to_mod(int degree, long * coeffs, long mod);
 static long * solve_prime_power_congruence(int degree, long coeffs[], long prime, int power);
@@ -52,9 +53,9 @@ long * brute_force_congruence(int degree, long coeffs[], long primeMod){
   long * solutions = solutionList+1;
   int numberOfSolutions = 0;
   long x;
-
-
-  for(x = 0; x < primeMod && numberOfSolutions <= degree; x++){
+  
+  #pragma omp parallel for
+  for(x = 0; x < primeMod; x++){
     if(mod_eval_polynomial(degree, adjustedCoeffs, primeMod, x) == 0){
       solutions[numberOfSolutions++] = x;
     }
