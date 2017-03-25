@@ -56,6 +56,7 @@ long * brute_force_congruence(int degree, long coeffs[], long primeMod){
   #pragma omp parallel for
   for(x = 0; x < primeMod; x++){
     if(mod_eval_polynomial(degree, adjustedCoeffs, primeMod, x) == 0){
+      #pragma omp critical
       solutions[numberOfSolutions++] = x;
     }
   }
